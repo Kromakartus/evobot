@@ -3,7 +3,7 @@ const YouTubeAPI = require("simple-youtube-api");
 
 let YOUTUBE_API_KEY;
 try {
-  const config = require("../config.json");
+  const config = require("../../config.json");
   YOUTUBE_API_KEY = config.YOUTUBE_API_KEY;
 } catch (error) {
   YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;

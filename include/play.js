@@ -1,18 +1,15 @@
 const ytdlDiscord = require("ytdl-core-discord");
-const scdl = require("soundcloud-downloader");
 const { canModifyQueue } = require("../util/EvobotUtil");
 
 module.exports = {
   async play(song, message) {
-    let PRUNING, SOUNDCLOUD_CLIENT_ID;
+    let PRUNING;
 
     try {
-      const config = require("../config.json");
+      const config = require("../../config.json");
       PRUNING = config.PRUNING;
-      SOUNDCLOUD_CLIENT_ID = config.SOUNDCLOUD_CLIENT_ID;
     } catch (error) {
-      PRUNING = process.env.PRUNING;
-      SOUNDCLOUD_CLIENT_ID = process.env.SOUNDCLOUD_CLIENT_ID;
+      PRUNING = process.env.PRUNING;      
     }
     const queue = message.client.queue.get(message.guild.id);
 
@@ -28,22 +25,7 @@ module.exports = {
     try {
       if (song.url.includes("youtube.com")) {
         stream = await ytdlDiscord(song.url, { highWaterMark: 1 << 25 });
-      } else if (song.url.includes("soundcloud.com")) {
-        try {
-          stream = await scdl.downloadFormat(
-            song.url,
-            scdl.FORMATS.OPUS,
-            SOUNDCLOUD_CLIENT_ID ? SOUNDCLOUD_CLIENT_ID : undefined
-          );
-        } catch (error) {
-          stream = await scdl.downloadFormat(
-            song.url,
-            scdl.FORMATS.MP3,
-            SOUNDCLOUD_CLIENT_ID ? SOUNDCLOUD_CLIENT_ID : undefined
-          );
-          streamType = "unknown";
-        }
-      }
+      }      
     } catch (error) {
       if (queue) {
         queue.songs.shift();
@@ -82,10 +64,9 @@ module.exports = {
 
     try {
       var playingMessage = await queue.textChannel.send(`🎶 Started playing: **${song.title}** ${song.url}`);
-      await playingMessage.react("⏭");
       await playingMessage.react("⏯");
       await playingMessage.react("🔇");
-      await playingMessage.react("🔉");
+      await playingMessage.react("🔉");      
       await playingMessage.react("🔊");
       await playingMessage.react("🔁");
       await playingMessage.react("⏹");
