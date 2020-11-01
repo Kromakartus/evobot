@@ -2,14 +2,17 @@ const { MessageEmbed } = require("discord.js");
 const { play } = require("../../include/play");
 const YouTubeAPI = require("simple-youtube-api");
 
-let YOUTUBE_API_KEY, MAX_PLAYLIST_SIZE;
+let YOUTUBE_API_KEY, MAX_PLAYLIST_SIZE, PRUNING;
+
 try {
   const config = require("../../config.json");
   YOUTUBE_API_KEY = config.YOUTUBE_API_KEY;
   MAX_PLAYLIST_SIZE = config.MAX_PLAYLIST_SIZE;
+  PRUNING = config.PRUNING;
 } catch (error) {
   YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY;
   MAX_PLAYLIST_SIZE = process.env.MAX_PLAYLIST_SIZE;
+  PRUNING = process.env.PRUNING;
 }
 const youtube = new YouTubeAPI(YOUTUBE_API_KEY);
 
@@ -19,7 +22,6 @@ module.exports = {
   aliases: ["pl"],
   description: "Play a playlist from youtube",
   async execute(message, args) {
-    const { PRUNING } = require("../../config.json");
     const { channel } = message.member.voice;
 
     const serverQueue = message.client.queue.get(message.guild.id);
