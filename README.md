@@ -1,7 +1,6 @@
+# CopperBot
 
 ![logo](https://chemindigest.com/wp-content/uploads/2019/09/Copper-black.png)
-
-# CopperBot
 
 ## Requirements
 
