@@ -48,5 +48,3 @@
 * Skip to song # in queue ($skipto, $st)
 * Toggle pruning of bot messages ($pruning)
 * Help ($help, $h)
-
-![reactions](https://i.imgur.com/j7CevsH.png)
