@@ -34,14 +34,18 @@ client.on("ready", () => {
 client.on("warn", (info) => console.log(info));
 client.on("error", console.error);
 
+const importFolder = (path) => {
+  const commandFiles = readdirSync(join(__dirname, `commands/${path}`)).filter((file) => file.endsWith(".js"));
+  for (const file of commandFiles) {
+    const command = require(join(__dirname, `commands/${path}`, `${file}`));
+    client.commands.set(command.name, command);
+  }
+}
+
 /**
  * Import all commands
  */
-const commandFiles = readdirSync(join(__dirname, "commands")).filter((file) => file.endsWith(".js"));
-for (const file of commandFiles) {
-  const command = require(join(__dirname, "commands", `${file}`));
-  client.commands.set(command.name, command);
-}
+importFolder('music')
 
 client.on("message", async (message) => {
   if (message.author.bot) return;
