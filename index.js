@@ -46,6 +46,7 @@ const importFolder = (path) => {
  * Import all commands
  */
 importFolder('music')
+importFolder('warnings')
 
 client.on("message", async (message) => {
   if (message.author.bot) return;
