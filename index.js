@@ -45,6 +45,7 @@ const importFolder = (path) => {
 /**
  * Import all commands
  */
+importFolder('misc')
 importFolder('music')
 importFolder('warnings')
 
