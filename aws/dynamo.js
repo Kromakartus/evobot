@@ -50,3 +50,9 @@ exports.save = async (data, tableName = WARNING_TABLE) => {
         Item: data
     })).promise()
 }
+
+exports.delete = async (data, tableName = WARNING_TABLE) => {
+    return await dynamoDb.deleteItem(getParams(tableName,{
+        Key: data
+    })).promise()
+}

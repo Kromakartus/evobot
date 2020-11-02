@@ -14,7 +14,7 @@ module.exports = {
     name: "schedule",
     cooldown: 3,
     aliases: ["sc"],
-    description: "Set advise by text and date",
+    description: "Schedule an event",
     async execute(message, args) {
         let name, date, msg = undefined
 
