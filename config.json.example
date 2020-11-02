@@ -7,5 +7,6 @@
   "PRUNING": false,
   "WARNING_FORMAT": "DD/mm/YYYY-hh:mm",
   "WARNING_TABLE": "warning",
-  "AWS_REGION": "us-east-2"
+  "AWS_REGION": "us-east-2",
+  "WARNING_MAXIMUM_SIZE": 20
 }

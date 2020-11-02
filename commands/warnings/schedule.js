@@ -4,8 +4,10 @@ const dynamo = require('../../aws/dynamo')
 try {
     const config = require("../../config.json");
     WARNING_FORMAT = config.WARNING_FORMAT;
+    WARNING_MAXIMUM_SIZE = config.WARNING_MAXIMUM_SIZE
 } catch (error) {
     WARNING_FORMAT = process.env.WARNING_FORMAT;
+    WARNING_MAXIMUM_SIZE = process.env.WARNING_MAXIMUM_SIZE
 }
 
 module.exports = {
@@ -31,8 +33,12 @@ module.exports = {
             return message.reply(error.message).catch(console.error); 
         }
 
-        const r = await dynamo.exists({name: {S:name}})
-        if(r.Count > 0)
+        const actualEvents = await dynamo.getAll()
+        if(actualEvents.length >= WARNING_MAXIMUM_SIZE)
+            return message.reply(`Already got maximum events allowed (${WARNING_MAXIMUM_SIZE})`); 
+
+        const savedEvent = await dynamo.exists({name: {S:name}})
+        if(savedEvent.Count > 0)
             return message.reply("Event has already scheduled"); 
 
         try{
