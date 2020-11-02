@@ -9,6 +9,7 @@ const setParams = (tableName) => {
                 Keys: [
                     {
                         'name': {
+                            S: 'warning'
                         }
                     }
                 ]
