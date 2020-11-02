@@ -13,7 +13,8 @@ module.exports = {
         if(args.includes("get"))
             results = await dynamo.getAll(args.length > 1 ? args[1] : 'warning')
 
+        console.log(results)
         return message
-        .reply(`Toma gil: ${results}`)
+        .reply(`Toma gil: ${JSON.stringify(results)}`)
     }
 }

@@ -1,31 +1,22 @@
 const AWS = require('aws-sdk')
+AWS.config.update({region:'us-east-2'})
 
 const dynamoDb = new AWS.DynamoDB()
 
-const setParams = (tableName) => {
+const setGetAllParams = (tableName) => {
     return params = {
-        RequestItems: {
-            [tableName]: {
-                Keys: [
-                    {
-                        'name': {
-                            S: 'warning'
-                        }
-                    }
-                ]
-            }
-        }
+        TableName: tableName,
     }
 }
 
 exports.getAll = async (tableName = 'warning') => {
-    return await dynamoDb.batchGetItem(setParams(tableName))
-    // dynamoDb.batchGetItem(setParams(tableName), (err, data) => {
-    //     if (err)
-    //         console.log("Error while getting items: ", err, err.stack)
-    //     else
-    //         results = data.Responses[tableName]
-    // });
+    let scanResults = []
+    let items
+    do{
+        items =  await dynamoDb.scan(setGetAllParams(tableName)).promise()
+        items.Items.forEach((item) => scanResults.push(item))
+        params.ExclusiveStartKey  = items.LastEvaluatedKey
+    }while(typeof items.LastEvaluatedKey != "undefined")
 
-    //return results
+    return scanResults
 }
