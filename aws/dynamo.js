@@ -1,9 +1,9 @@
-const AWS = require('aws-sdk');
+const AWS = require('aws-sdk')
 
-const dynamoDB = new AWS.DynamoDB();
+const dynamoDb = new AWS.DynamoDB()
 
 exports.getAll = () =>{
-    dynamodb.batchGetItem({}, (err, data) => {
+    dynamoDb.batchGetItem({}, (err, data) => {
         if (err)
             console.log("Error while getting items: ", err, err.stack)
         else
