@@ -6,7 +6,12 @@ const setParams = (tableName) => {
     return params = {
         RequestItems: {
             [tableName]: {
-                Keys: []
+                Keys: [
+                    {
+                        'name': {
+                        }
+                    }
+                ]
             }
         }
     }
