@@ -18,11 +18,14 @@ const setParams = (tableName) => {
     }
 }
 
-exports.getAll = (tableName = 'warning') =>{
-    dynamoDb.batchGetItem(setParams(tableName), (err, data) => {
-        if (err)
-            console.log("Error while getting items: ", err, err.stack)
-        else
-            console.log("Found:", data)
-    });
+exports.getAll = async (tableName = 'warning') => {
+    return await dynamoDb.batchGetItem(setParams(tableName))
+    // dynamoDb.batchGetItem(setParams(tableName), (err, data) => {
+    //     if (err)
+    //         console.log("Error while getting items: ", err, err.stack)
+    //     else
+    //         results = data.Responses[tableName]
+    // });
+
+    //return results
 }
