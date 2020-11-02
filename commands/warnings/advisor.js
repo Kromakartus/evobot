@@ -10,7 +10,7 @@ module.exports = {
         if(args.includes("debug"))
             console.log('Que magia hay aca: ', message)
         if(args.includes("get"))
-            dynamo.getAll()
+            dynamo.getAll(args.length > 0 ? args[0] : 'warning')
 
         return message
         .reply('CALMA MAN')
