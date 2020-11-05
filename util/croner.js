@@ -22,13 +22,13 @@ exports.croner = (client) => setInterval(async () => {
     console.error("Croner fails...", error);
   }
 
-  const response = events.map((x, index) => {
+  await Promise.all(events.map(async (x, index) => {
     const now = moment(new Date())
     const date = moment(Number(x.date.S))
     if(date.isAfter(now)){
       await channel.send(`${x.name}\n${x.msg ?? ""}`)
       await dynamo.delete({name: {S: x.name}})
     }
-  })
+  }));
 
 }, internalTime)
