@@ -4,6 +4,7 @@
 const { Client, Collection } = require("discord.js");
 const { readdirSync } = require("fs");
 const { join } = require("path");
+const { croner } = require("./util/croner")
 
 let TOKEN, PREFIX;
 try {
@@ -45,7 +46,9 @@ const importFolder = (path) => {
 /**
  * Import all commands
  */
+importFolder('misc')
 importFolder('music')
+importFolder('warnings')
 
 client.on("message", async (message) => {
   if (message.author.bot) return;
@@ -94,3 +97,5 @@ client.on("message", async (message) => {
     message.reply("There was an error executing that command.").catch(console.error);
   }
 });
+
+croner(client)
