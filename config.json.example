@@ -9,6 +9,5 @@
   "WARNING_TABLE": "warning",
   "AWS_REGION": "us-east-2",
   "WARNING_MAXIMUM_SIZE": 20,
-  "RECEIVER_CRONER": "",
-  "INTERVAL_CRONER": "3600"
+  "RECEIVER_CRONER": ""
 }

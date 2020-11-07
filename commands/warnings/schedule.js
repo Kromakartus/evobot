@@ -23,14 +23,23 @@ module.exports = {
             date = args.shift()
 
             if(moment(date, WARNING_FORMAT).format(WARNING_FORMAT) !== date)
-                throw new Error(`Invalid date format(must be ${WARNING_FORMAT})`)
+                throw new Error(`Invalid date: format must be ${WARNING_FORMAT}`)
 
+            const now = moment(new Date())
             date = moment(date, WARNING_FORMAT).valueOf().toString()
+
+            if(now.isAfter(moment(Number(date))))
+                throw new Error(`Invalid date: the date must be after right now`)
+
+            if(moment(Number(date)).diff(now, 'years') > 1)
+                throw new Error(`Invalid date: The date can't be more than 2 year`)
+
             if(args.length > 0) 
                 msg = args.join(' ')
+            else
+                throw new Error(`You must define a description`)
         }catch(error){
-            console.error(error);
-            return message.reply(error.message).catch(console.error); 
+            return message.reply(`$sc <name> <date> <description>: ${error.message}`).catch(console.error); 
         }
 
         const actualEvents = await dynamo.getAll()

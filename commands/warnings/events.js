@@ -22,10 +22,12 @@ module.exports = {
           return message.reply("Failed retrieving events").catch(console.error); 
       }
 
-      const response = events.map((x, index) => {
-        const date = moment(Number(x.date.S)).format(WARNING_FORMAT)
-        return `${(index+1)}: ${x.name.S} - ${date}`
-      }).join('\n')
+      const response = events
+          .sort((a,b) => Number(a.date.S) - Number(b.date.S))
+          .map((x, index) => {
+            const date = moment(Number(x.date.S)).format(WARNING_FORMAT)
+            return `${(index+1)}: ${x.name.S} - ${date}`
+          }).join('\n')
 
       return message.reply(`Events:\n${response}`)
     }
