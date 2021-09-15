@@ -4,19 +4,14 @@
 const { Client, Collection } = require("discord.js");
 const { readdirSync } = require("fs");
 const { join } = require("path");
+const { TOKEN, PREFIX } = require("./util/Util");
 const { croner } = require("./util/croner")
+const i18n = require("./util/i18n");
 
-let TOKEN, PREFIX;
-try {
-  const config = require("./config.json");
-  TOKEN = config.TOKEN;
-  PREFIX = config.PREFIX;
-} catch (error) {
-  TOKEN = process.env.TOKEN;
-  PREFIX = process.env.PREFIX;
-}
-
-const client = new Client({ disableMentions: "everyone" });
+const client = new Client({
+  disableMentions: "everyone",
+  restTimeOffset: 0
+});
 
 client.login(TOKEN);
 client.commands = new Collection();
@@ -30,25 +25,19 @@ const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
  */
 client.on("ready", () => {
   console.log(`${client.user.username} ready!`);
-  client.user.setActivity(`${PREFIX}help and ${PREFIX}play`, { type : "LISTENING" });
+  client.user.setActivity(`${PREFIX}help and ${PREFIX}play`, { type: "LISTENING" });
 });
 client.on("warn", (info) => console.log(info));
 client.on("error", console.error);
 
-const importFolder = (path) => {
-  const commandFiles = readdirSync(join(__dirname, `commands/${path}`)).filter((file) => file.endsWith(".js"));
-  for (const file of commandFiles) {
-    const command = require(join(__dirname, `commands/${path}`, `${file}`));
-    client.commands.set(command.name, command);
-  }
-}
-
 /**
  * Import all commands
  */
-importFolder('misc')
-importFolder('music')
-importFolder('warnings')
+const commandFiles = readdirSync(join(__dirname, "commands")).filter((file) => file.endsWith(".js"));
+for (const file of commandFiles) {
+  const command = require(join(__dirname, "commands", `${file}`));
+  client.commands.set(command.name, command);
+}
 
 client.on("message", async (message) => {
   if (message.author.bot) return;
@@ -82,7 +71,7 @@ client.on("message", async (message) => {
     if (now < expirationTime) {
       const timeLeft = (expirationTime - now) / 1000;
       return message.reply(
-        `please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`
+        i18n.__mf("common.cooldownMessage", { time: timeLeft.toFixed(1), name: command.name })
       );
     }
   }
@@ -94,7 +83,7 @@ client.on("message", async (message) => {
     command.execute(message, args);
   } catch (error) {
     console.error(error);
-    message.reply("There was an error executing that command.").catch(console.error);
+    message.reply(i18n.__("common.errorCommand")).catch(console.error);
   }
 });
 

@@ -5,9 +5,12 @@
   "MAX_PLAYLIST_SIZE": 10,
   "PREFIX": "/",
   "PRUNING": false,
+  "LOCALE": "en",
+  "STAY_TIME": 30,
+  "DEFAULT_VOLUME": 100,
   "WARNING_FORMAT": "DD/mm/YYYY-hh:mm",
   "WARNING_TABLE": "warning",
   "AWS_REGION": "us-east-2",
-  "WARNING_MAXIMUM_SIZE": 20,
+  "WARNING_MAXIMUM_SIZE": 20,  
   "RECEIVER_CRONER": ""
 }
