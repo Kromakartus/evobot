@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "@discordjs/opus": "^0.5.3",
-    "aws-sdk": "^2.783.0",
+    "aws-sdk": "^2.1321.0",
     "array-move": "^3.0.1",
     "discord.js": "^12.5.1",
     "ffmpeg-static": "^4.4.0",
